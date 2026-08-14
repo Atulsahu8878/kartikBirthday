@@ -1558,9 +1558,15 @@
         document.addEventListener("DOMContentLoaded", () => {
 
             // ===== QR CODE =====
-            const qrImage = document.getElementById('qrImage');
-            const currentUrl = encodeURIComponent(window.location.href);
-            qrImage.src = `https://api.qrserver.com/v1/create-qr-code/?data=${currentUrl}&size=300x300&margin=12`;
+git add .
+git commit -m "Fix image paths"
+git push                const qrImage = document.getElementById('qrImage');
+
+                const currentUrl = encodeURIComponent(
+                    'https://atulsahu8878.github.io/kartikBirthday/index_qr.html'
+                );
+
+                qrImage.src = `https://api.qrserver.com/v1/create-qr-code/?data=${currentUrl}&size=300x300&margin=12`;
 
             // ===== QR OVERLAY DISMISS =====
             const qrOverlay = document.getElementById('qr-overlay');
