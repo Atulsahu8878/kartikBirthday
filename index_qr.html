@@ -5,13 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>🎂 4‑Layer White Cake – Kartik</title>
     <style>
-       .balloon-img {
+        .balloon-img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             display: block;
         }
-       
+
         * {
             margin: 0;
             padding: 0;
@@ -750,7 +750,8 @@
             width: 18px;
             border-radius: 10px 10px 3px 3px;
             box-shadow: inset -3px 0 10px rgba(0, 0, 0, 0.2);
-            /* background set via JS */;
+            /* background set via JS */
+            ;
         }
         .bg-candle .candle--wick {
             height: 7px;
@@ -1559,17 +1560,40 @@
         </div>
     </div>
 
+    <!-- ===== AUDIO PLAYER (hidden) ===== -->
+    <iframe
+        id="birthdaySong"
+        width="1"
+        height="1"
+        src=""
+        title="Birthday Song"
+        frameborder="0"
+        allow="autoplay"
+        style="position:absolute; width:1px; height:1px; border:0; opacity:0; pointer-events:none; top:-9999px; left:-9999px;">
+    </iframe>
+
     <script>
         document.addEventListener("DOMContentLoaded", () => {
 
+            // ===== SONG PLAYBACK CONTROL =====
+            const songIframe = document.getElementById('birthdaySong');
+            const SONG_URL =
+                'https://www.youtube.com/embed/CNaFoM1VZjQ?autoplay=1&loop=1&playlist=CNaFoM1VZjQ';
+
+            function playBirthdaySong() {
+                songIframe.src = SONG_URL;
+            }
+
+            function stopBirthdaySong() {
+                songIframe.src = '';
+            }
+
             // ===== QR CODE =====
-                const qrImage = document.getElementById('qrImage');
-
-                const currentUrl = encodeURIComponent(
-                    'https://atulsahu8878.github.io/kartikBirthday/index_qr.html'
-                );
-
-                qrImage.src = `https://api.qrserver.com/v1/create-qr-code/?data=${currentUrl}&size=300x300&margin=12`;
+            const qrImage = document.getElementById('qrImage');
+            const currentUrl = encodeURIComponent(
+                'https://atulsahu8878.github.io/kartikBirthday/index_qr.html'
+            );
+            qrImage.src = `https://api.qrserver.com/v1/create-qr-code/?data=${currentUrl}&size=300x300&margin=12`;
 
             // ===== QR OVERLAY DISMISS =====
             const qrOverlay = document.getElementById('qr-overlay');
@@ -1580,13 +1604,23 @@
                 setTimeout(() => { initCakeBuild(); }, 1200);
             }
 
-            enterBtn.addEventListener('click', dismissOverlay);
+            enterBtn.addEventListener('click', function(e) {
+                playBirthdaySong();
+                dismissOverlay();
+            });
+
             qrOverlay.addEventListener('click', function(e) {
-                if (e.target === this) dismissOverlay();
+                if (e.target === this) {
+                    if (!qrOverlay.classList.contains('hidden')) {
+                        qrOverlay.classList.add('hidden');
+                        setTimeout(() => { initCakeBuild(); }, 1200);
+                    }
+                }
             });
 
             // ===== CAKE BUILD =====
             let buildStarted = false;
+            let wishShown = false; // prevent double-showing the wish overlay
 
             function initCakeBuild() {
                 if (buildStarted) return;
@@ -1636,7 +1670,7 @@
                                     setTimeout(() => {
                                         bf.classList.add("extinguished");
                                         if (bgGlows[bi]) bgGlows[bi].classList.add(
-                                        "extinguished");
+                                            "extinguished");
                                     }, bi * 100);
                                 });
                                 setTimeout(popBalloons, 2800);
@@ -1651,12 +1685,12 @@
                         setTimeout(() => {
                             balloon.classList.add("popped");
                             if (index === balloons.length - 1) setTimeout(startPhotoModalSequence,
-                            2000);
+                                2000);
                         }, index * 1000);
                     });
                 }
 
-               
+                // ===== PHOTO SLIDESHOW =====
                 const photoList = ["8.png", "9.jpg", "15.jpg", "5.jpg", "12.jpg", "16.jpg", "14.png"];
                 const photoModal = document.getElementById("photoModal");
                 const modalImg = document.getElementById("modalImg");
@@ -1686,6 +1720,7 @@
                 const MIN_ZOOM = 0.4;
                 const MAX_ZOOM = 2.8;
                 let photoInterval = null;
+                let autoCloseTimer = null;
 
                 function getTransitionClass(type) {
                     const map = {
@@ -1696,6 +1731,18 @@
                         'flip': 'trans-flip'
                     };
                     return map[type] || 'trans-fade';
+                }
+
+                function showWishAndStopSong() {
+                    if (wishShown) return;
+                    wishShown = true;
+                    photoModal.classList.remove("active");
+                    wishOverlay.classList.add("active");
+                    stopBirthdaySong();
+                    if (autoCloseTimer) {
+                        clearTimeout(autoCloseTimer);
+                        autoCloseTimer = null;
+                    }
                 }
 
                 function showPhoto(index, transitionType) {
@@ -1719,6 +1766,23 @@
                     updateZoomLabel();
                     currentTransitionIndex = (currentTransitionIndex + 1) % transitionTypes.length;
                     currentPhotoIndex = index;
+
+                    // === AUTO-CLOSE AFTER 7th PHOTO (index 6) ===
+                    if (index === photoList.length - 1) {
+                        // Clear the auto-play interval so it doesn't loop
+                        if (photoInterval) {
+                            clearInterval(photoInterval);
+                            photoInterval = null;
+                        }
+                        // Schedule the wish overlay after 1 second
+                        if (autoCloseTimer) {
+                            clearTimeout(autoCloseTimer);
+                            autoCloseTimer = null;
+                        }
+                        autoCloseTimer = setTimeout(() => {
+                            showWishAndStopSong();
+                        }, 1000);
+                    }
                 }
 
                 function updateZoomLabel() {
@@ -1788,22 +1852,36 @@
                         clearInterval(photoInterval);
                         photoInterval = null;
                     }
+                    if (autoCloseTimer) {
+                        clearTimeout(autoCloseTimer);
+                        autoCloseTimer = null;
+                    }
                     nextPhoto();
                     startAutoPlay();
                 });
 
+                // ===== CLOSE PHOTO MODAL (manual) → show wish + stop song =====
                 modalClose.addEventListener("click", () => {
-                    photoModal.classList.remove("active");
-                    if (photoInterval) {
-                        clearInterval(photoInterval);
-                        photoInterval = null;
+                    if (autoCloseTimer) {
+                        clearTimeout(autoCloseTimer);
+                        autoCloseTimer = null;
                     }
-                    wishOverlay.classList.add("active");
+                    showWishAndStopSong();
                 });
 
                 function startAutoPlay() {
                     if (photoInterval) clearInterval(photoInterval);
                     photoInterval = setInterval(() => {
+                        // If we've already shown the wish, stop auto-play
+                        if (wishShown) {
+                            clearInterval(photoInterval);
+                            photoInterval = null;
+                            return;
+                        }
+                        // If we're at the last photo, don't auto-advance (wait for the timeout)
+                        if (currentPhotoIndex === photoList.length - 1) {
+                            return;
+                        }
                         nextPhoto();
                     }, 3200);
                 }
@@ -1812,6 +1890,7 @@
                     currentPhotoIndex = 0;
                     currentTransitionIndex = 0;
                     currentZoom = 1;
+                    wishShown = false;
                     modalImg.style.transform = 'scale(1)';
                     photoModal.classList.add("active");
                     showPhoto(0, 'fade');
@@ -1822,6 +1901,10 @@
                     if (photoInterval) {
                         clearInterval(photoInterval);
                         photoInterval = null;
+                    }
+                    if (autoCloseTimer) {
+                        clearTimeout(autoCloseTimer);
+                        autoCloseTimer = null;
                     }
                     nextPhoto();
                     startAutoPlay();
@@ -1857,6 +1940,10 @@
                         if (photoInterval) {
                             clearInterval(photoInterval);
                             photoInterval = null;
+                        }
+                        if (autoCloseTimer) {
+                            clearTimeout(autoCloseTimer);
+                            autoCloseTimer = null;
                         }
                         nextPhoto();
                         startAutoPlay();
@@ -1898,7 +1985,7 @@
                 stars.appendChild(s);
             }
 
-            // Sprinkles (colorful on white cake)
+            // Sprinkles
             const colors = ["#ff6b6b", "#feca57", "#48dbfb", "#ff9ff3", "#00b894", "#ff9f43", "#a29bfe", "#fd79a8"];
             [1, 2, 3, 4].forEach(n => {
                 const wrap = document.getElementById("sprinkles" + n);
@@ -1925,9 +2012,8 @@
                 confetti.appendChild(c);
             }
 
-            // ===== BACKGROUND CANDLES — FIXED: MIXED COLORS =====
+            // ===== BACKGROUND CANDLES =====
             const bg = document.getElementById("bgCandles");
-            // rich palette for mixed colors
             const candleColors = [
                 '#ff6b6b', '#feca57', '#48dbfb', '#ff9ff3', '#00b894',
                 '#fd79a8', '#e17055', '#0984e3', '#6c5ce7', '#fdcb6e',
@@ -1940,19 +2026,13 @@
             for (let i = 0; i < 30; i++) {
                 const candle = document.createElement("div");
                 candle.className = "bg-candle";
-
-                // pick a random color from the palette
                 const color = candleColors[Math.floor(Math.random() * candleColors.length)];
-                // lighter variant for gradient highlight
-                const lighter = color + '88'; // semi-transparent overlay
-
                 candle.style.left = (2 + Math.random() * 96) + "%";
                 candle.style.top = (2 + Math.random() * 92) + "%";
                 candle.style.animationDelay = Math.random() * 2 + "s";
 
                 const wax = document.createElement("div");
                 wax.className = "candle--wax";
-                // solid color with a subtle gradient for depth
                 wax.style.background = `linear-gradient(135deg, ${color}, ${color}dd, ${color}aa)`;
                 wax.style.boxShadow = `inset -3px 0 12px rgba(0,0,0,0.25), inset 0 2px 8px rgba(255,255,255,0.2)`;
 
@@ -1973,7 +2053,6 @@
                 candle.appendChild(glow);
                 bg.appendChild(candle);
 
-                // click to extinguish
                 candle.addEventListener("click", function(e) {
                     e.stopPropagation();
                     const l = this.querySelector(".bg-candle-light");
@@ -2043,5 +2122,6 @@
             console.log("QR overlay ready – scan or click 'Enter' to start.");
         });
     </script>
+
 </body>
 </html>
