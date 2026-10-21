@@ -1561,31 +1561,24 @@
     </div>
 
     <!-- ===== AUDIO PLAYER (hidden) ===== -->
-    <iframe
-        id="birthdaySong"
-        width="1"
-        height="1"
-        src=""
-        title="Birthday Song"
-        frameborder="0"
-        allow="autoplay"
-        style="position:absolute; width:1px; height:1px; border:0; opacity:0; pointer-events:none; top:-9999px; left:-9999px;">
-    </iframe>
+    <audio id="birthdaySong" loop preload="auto">
+        <source src="song.mp3" type="audio/mpeg">
+    </audio>
 
     <script>
         document.addEventListener("DOMContentLoaded", () => {
 
             // ===== SONG PLAYBACK CONTROL =====
-            const songIframe = document.getElementById('birthdaySong');
-            const SONG_URL =
-                'https://www.youtube.com/embed/CNaFoM1VZjQ?autoplay=1&loop=1&playlist=CNaFoM1VZjQ';
+            const songAudio = document.getElementById('birthdaySong');
 
             function playBirthdaySong() {
-                songIframe.src = SONG_URL;
+                songAudio.currentTime = 0;
+                songAudio.play().catch(err => console.log('Audio play blocked:', err));
             }
 
             function stopBirthdaySong() {
-                songIframe.src = '';
+                songAudio.pause();
+                songAudio.currentTime = 0;
             }
 
             // ===== QR CODE =====
