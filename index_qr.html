@@ -1572,18 +1572,17 @@
             const songAudio = document.getElementById('birthdaySong');
 
             function playBirthdaySong() {
-                songAudio.pause();
                 songAudio.currentTime = 0;
-                songAudio.load();
                 
+                // Play song with error handling for mobile browsers
                 let playPromise = songAudio.play();
                 
                 if (playPromise !== undefined) {
                     playPromise.then(_ => {
                         console.log("Song started playing successfully!");
                     }).catch(error => {
-                        console.log("Playback blocked by browser: ", error);
-                        // Fallback: Mobile browsers (like iOS Safari) might need another touch to play
+                        console.log("Playback blocked by browser. Trying again on click...", error);
+                        // Agar mobile browser ne block kiya, toh next click par play karega
                         const playOnTouch = () => {
                             songAudio.play();
                             document.removeEventListener('touchstart', playOnTouch);
