@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>🎂 4‑Layer Cake – Kartik</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>🎂 4‑Layer White Cake – Kartik</title>
     <style>
         .balloon-img {
             width: 100%;
@@ -11,6 +11,7 @@
             object-fit: cover;
             display: block;
         }
+
         * {
             margin: 0;
             padding: 0;
@@ -27,6 +28,94 @@
             perspective: 1600px;
             padding: 20px;
             position: relative;
+            touch-action: manipulation;
+        }
+
+        /* ===== QR OVERLAY ===== */
+        #qr-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 5, 20, 0.92);
+            backdrop-filter: blur(12px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 1s ease, transform 1s ease;
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: auto;
+            padding: 20px;
+            text-align: center;
+        }
+        #qr-overlay.hidden {
+            opacity: 0;
+            transform: scale(1.1);
+            pointer-events: none;
+        }
+        #qr-overlay .qr-box {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 30px;
+            padding: 30px 30px 40px;
+            border: 2px solid rgba(254, 202, 87, 0.3);
+            box-shadow: 0 0 60px rgba(254, 202, 87, 0.15);
+            max-width: 400px;
+            width: 100%;
+            transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        #qr-overlay .qr-box h2 {
+            color: #feca57;
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+        }
+        #qr-overlay .qr-box p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+        #qr-overlay .qr-box img {
+            width: 100%;
+            max-width: 220px;
+            height: auto;
+            border-radius: 16px;
+            background: #fff;
+            padding: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            margin-bottom: 24px;
+            image-rendering: pixelated;
+        }
+        #qr-overlay .qr-box .enter-btn {
+            background: linear-gradient(135deg, #feca57, #f6b93b);
+            border: none;
+            color: #1a0f2a;
+            font-size: 22px;
+            font-weight: 800;
+            padding: 14px 40px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.25s, box-shadow 0.3s;
+            box-shadow: 0 8px 25px rgba(254, 202, 87, 0.3);
+            letter-spacing: 1px;
+            touch-action: manipulation;
+        }
+        #qr-overlay .qr-box .enter-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 35px rgba(254, 202, 87, 0.5);
+        }
+        #qr-overlay .qr-box .enter-btn:active {
+            transform: scale(0.95);
+        }
+        #qr-overlay .qr-box .sub-text {
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 13px;
+            margin-top: 16px;
+            letter-spacing: 0.5px;
         }
 
         /* ===== FLOATING HEARTS ===== */
@@ -106,7 +195,7 @@
             }
         }
 
-        /* ===== STARS (existing) ===== */
+        /* ===== STARS ===== */
         .stars {
             position: fixed;
             top: 0;
@@ -142,6 +231,7 @@
             z-index: 1;
             transform-style: preserve-3d;
             animation: floatCake 6s ease-in-out infinite;
+            touch-action: none;
         }
         @keyframes floatCake {
             0%,
@@ -169,6 +259,7 @@
             opacity: 0;
             transform: scale(0.6) translateY(30px);
             pointer-events: none;
+            touch-action: manipulation;
         }
         .layer.visible {
             opacity: 1;
@@ -186,41 +277,43 @@
             border-radius: 0 0 8px 8px;
             pointer-events: none;
         }
+
+        /* ---- WHITE LAYERS ---- */
         .layer.layer1 {
             width: 480px;
             height: 180px;
-            background: linear-gradient(135deg, #f093fb, #f5576c, #4facfe);
+            background: linear-gradient(135deg, #f5f0eb, #ece4db, #e8ddd2);
             z-index: 1;
-            border-bottom: 6px solid #b07a9e;
+            border-bottom: 6px solid #d5c8bb;
         }
         .layer.layer2 {
             width: 380px;
             height: 150px;
-            background: linear-gradient(135deg, #020201, #38f9d7, #fa709a);
+            background: linear-gradient(135deg, #faf7f3, #f0e8e0, #e8ddd2);
             margin-top: -32px;
             z-index: 2;
-            border-bottom: 6px solid #8fb5a0;
+            border-bottom: 6px solid #d5c8bb;
         }
         .layer.layer3 {
             width: 280px;
             height: 130px;
-            background: linear-gradient(135deg, #f6d365, #fda085, #f093fb);
+            background: linear-gradient(135deg, #fdfbf9, #f5ede6, #ece4db);
             margin-top: -30px;
             z-index: 3;
-            border-bottom: 6px solid #c9a87a;
+            border-bottom: 6px solid #d5c8bb;
         }
         .layer.layer4 {
             width: 180px;
             height: 105px;
-            background: linear-gradient(135deg, #a18cd1, #fbc2eb, #f6d365);
+            background: linear-gradient(135deg, #ffffff, #f5f0eb, #f0e8e0);
             margin-top: -28px;
             margin-bottom: 20px;
             z-index: 4;
-            border-bottom: 6px solid #b8a0c0;
+            border-bottom: 6px solid #d5c8bb;
             overflow: visible;
         }
 
-        /* frosting */
+        /* ===== FROSTING (white/cream) ===== */
         .frosting {
             position: absolute;
             bottom: -8px;
@@ -276,7 +369,7 @@
             }
         }
 
-        /* sprinkles */
+        /* ===== SPRINKLES ===== */
         .sprinkles {
             position: absolute;
             top: 10px;
@@ -304,7 +397,7 @@
             }
         }
 
-        /* tray */
+        /* ===== TRAY ===== */
         .tray {
             width: 520px;
             height: 14px;
@@ -322,7 +415,7 @@
             transform: scale(1) translateY(0);
         }
 
-        /* photo orbit */
+        /* ===== PHOTO ORBIT ===== */
         .photo-wrap {
             position: absolute;
             width: 100%;
@@ -332,6 +425,7 @@
             transform-style: preserve-3d;
             animation: rotatePhotos 18s linear infinite;
             pointer-events: auto;
+            touch-action: none;
         }
         .photo-wrap:hover {
             animation-play-state: paused;
@@ -350,6 +444,8 @@
             pointer-events: auto;
             cursor: pointer;
             transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), border-color 0.3s, box-shadow 0.3s;
+            touch-action: manipulation;
+            background: #2b1a3a;
         }
         .photo-wrap img:nth-child(1) {
             transform: rotateY(0deg) translateZ(140px);
@@ -407,7 +503,7 @@
             }
         }
 
-        /* rotating texts */
+        /* ===== ROTATING TEXTS ===== */
         .text-wrap {
             position: absolute;
             width: 100%;
@@ -427,7 +523,7 @@
             top: 50%;
             left: 50%;
             letter-spacing: 1px;
-            background: linear-gradient(90deg, #f4f3f3, #070606, #070606, #070606, #070606);
+            background: linear-gradient(90deg, #f4f3f3, #feca57, #070606, #070606, #070606);
             background-size: 300%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -471,7 +567,7 @@
             white-space: nowrap;
             top: 50%;
             left: 50%;
-            background: linear-gradient(90deg, #dedbd5, #070606, #070606, #070606, #070606);
+            background: linear-gradient(90deg, #dedbd5, #feca57, #070606, #070606, #070606);
             background-size: 300%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -509,7 +605,7 @@
             }
         }
 
-        /* candles on cake */
+        /* ===== CANDLES ===== */
         .candle-wrap {
             position: absolute;
             width: 100%;
@@ -531,6 +627,7 @@
             pointer-events: auto;
             transition: transform 0.2s;
             user-select: none;
+            touch-action: manipulation;
         }
         .candle:nth-child(1) {
             transform: rotateY(0deg) translateZ(50px) translate(-50%, -50%);
@@ -541,11 +638,24 @@
         .candle:nth-child(3) {
             transform: rotateY(240deg) translateZ(50px) translate(-50%, -50%);
         }
+
+        .candle:nth-child(1) .candle--wax {
+            background: repeating-linear-gradient(-45deg, #ff6b9d 0 8px, #ff3f81 8px 16px, #ffb6d5 16px 24px, #ff6b9d 24px 32px);
+            box-shadow: inset -4px 0 12px rgba(255, 20, 100, 0.3);
+        }
+        .candle:nth-child(2) .candle--wax {
+            background: repeating-linear-gradient(-45deg, #48dbfb 0 8px, #0984e3 8px 16px, #a7ecff 16px 24px, #48dbfb 24px 32px);
+            box-shadow: inset -4px 0 12px rgba(0, 100, 220, 0.3);
+        }
+        .candle:nth-child(3) .candle--wax {
+            background: repeating-linear-gradient(-45deg, #a29bfe 0 8px, #6c5ce7 8px 16px, #d6d2ff 16px 24px, #a29bfe 24px 32px);
+            box-shadow: inset -4px 0 12px rgba(90, 60, 220, 0.3);
+        }
+
         .candle--wax {
             height: 45px;
             width: 20px;
             border-radius: 12px 12px 4px 4px;
-            background: var(--candle-wax, repeating-linear-gradient(-45deg, #3112bb 0 8px, #d41313 8px 16px, #3112bb 16px 24px, #d41313 24px 32px));
             box-shadow: inset -4px 0 12px rgba(0, 0, 0, 0.2);
         }
         .candle--wick {
@@ -614,7 +724,7 @@
             }
         }
 
-        /* background candles */
+        /* ===== BACKGROUND CANDLES (FIXED: mixed colors via JS) ===== */
         .bg-candles {
             position: fixed;
             top: 0;
@@ -632,12 +742,16 @@
             pointer-events: auto;
             transform: scale(0.9);
             cursor: pointer;
+            touch-action: manipulation;
         }
+        /* wax background is set inline by JS — no fixed white gradient here */
         .bg-candle .candle--wax {
             height: 40px;
             width: 18px;
             border-radius: 10px 10px 3px 3px;
             box-shadow: inset -3px 0 10px rgba(0, 0, 0, 0.2);
+            /* background set via JS */
+            ;
         }
         .bg-candle .candle--wick {
             height: 7px;
@@ -679,7 +793,7 @@
             opacity: 0 !important;
         }
 
-        /* balloons */
+        /* ===== BALLOONS ===== */
         .balloons-container {
             position: fixed;
             top: 0;
@@ -703,6 +817,7 @@
             transition: transform 0.4s, opacity 0.4s;
             pointer-events: auto;
             user-select: none;
+            touch-action: manipulation;
         }
         .balloon.popped {
             transform: scale(1.6) !important;
@@ -721,6 +836,7 @@
             object-fit: cover;
             border-radius: 50%;
             border: 3px solid rgba(255, 255, 255, 0.7);
+            background: #2b1a3a;
         }
         .balloon .balloon-emoji {
             font-size: 34px;
@@ -734,7 +850,7 @@
             }
         }
 
-        /* center text */
+        /* ===== CENTER TEXT ===== */
         .center-text {
             position: absolute;
             bottom: 6%;
@@ -766,7 +882,7 @@
             }
         }
 
-        /* confetti */
+        /* ===== CONFETTI ===== */
         .confetti-container {
             position: fixed;
             top: 0;
@@ -796,7 +912,7 @@
             }
         }
 
-        /* build status */
+        /* ===== BUILD STATUS ===== */
         .build-status {
             position: fixed;
             top: 20px;
@@ -830,7 +946,7 @@
             transform: scale(1.3);
         }
 
-        /* wish overlay */
+        /* ===== WISH OVERLAY ===== */
         .wish-overlay {
             position: fixed;
             top: 0;
@@ -879,7 +995,7 @@
             color: #ff9ff3;
         }
 
-        /* ===== PHOTO MODAL — ENHANCED ===== */
+        /* ===== PHOTO MODAL ===== */
         .photo-modal {
             position: fixed;
             top: 0;
@@ -911,6 +1027,7 @@
             justify-content: center;
             transform: scale(0.7) translateY(20px);
             transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            touch-action: manipulation;
         }
         .photo-modal.active .modal-content {
             transform: scale(1) translateY(0);
@@ -928,6 +1045,7 @@
             background: rgba(0, 0, 0, 0.3);
             position: relative;
             perspective: 1200px;
+            touch-action: none;
         }
         .modal-img-wrap img {
             width: 100%;
@@ -937,8 +1055,9 @@
             transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s;
             will-change: transform, opacity;
             transform: scale(1);
+            touch-action: none;
+            background: #0b0815;
         }
-        /* Transition classes applied to img */
         .modal-img-wrap img.trans-zoom-in {
             animation: zoomIn 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
         }
@@ -954,7 +1073,6 @@
         .modal-img-wrap img.trans-flip {
             animation: flipIn 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
         }
-
         @keyframes zoomIn {
             0% {
                 transform: scale(0.3);
@@ -1005,8 +1123,6 @@
                 opacity: 1;
             }
         }
-
-        /* Zoom controls */
         .zoom-controls {
             display: flex;
             gap: 14px;
@@ -1031,6 +1147,7 @@
             align-items: center;
             justify-content: center;
             user-select: none;
+            touch-action: manipulation;
         }
         .zoom-controls button:hover {
             background: rgba(254, 202, 87, 0.25);
@@ -1063,7 +1180,6 @@
             border: 1px solid rgba(254, 202, 87, 0.2);
             letter-spacing: 0.5px;
         }
-
         .modal-caption {
             margin-top: 12px;
             font-size: 22px;
@@ -1083,6 +1199,7 @@
             line-height: 1;
             transition: transform 0.2s, color 0.2s;
             z-index: 10;
+            touch-action: manipulation;
         }
         .modal-close:hover {
             color: #ff6b6b;
@@ -1290,27 +1407,69 @@
                 padding: 4px 10px;
             }
         }
+        #qr-overlay .qr-box {
+            padding: 20px 20px 30px;
+        }
+        #qr-overlay .qr-box h2 {
+            font-size: 22px;
+        }
+        #qr-overlay .qr-box img {
+            max-width: 160px;
+        }
+        #qr-overlay .qr-box .enter-btn {
+            font-size: 18px;
+            padding: 12px 30px;
+        }
+
+        /* frosting overrides for white cake */
+        .layer.layer1 .frosting {
+            background: linear-gradient(135deg, #f5f0eb, #ece4db, #e8ddd2);
+        }
+        .layer.layer2 .frosting {
+            background: linear-gradient(135deg, #faf7f3, #f0e8e0, #e8ddd2);
+        }
+        .layer.layer3 .frosting {
+            background: linear-gradient(135deg, #fdfbf9, #f5ede6, #ece4db);
+        }
+        .layer.layer4 .frosting {
+            background: linear-gradient(135deg, #ffffff, #f5f0eb, #f0e8e0);
+        }
     </style>
 </head>
 <body>
 
+    <!-- ===== QR OVERLAY ===== -->
+    <div id="qr-overlay">
+        <div class="qr-box">
+            <h2>📱 Scan to Celebrate</h2>
+            <img id="qrImage" src="" alt="QR Code" />
+            <button class="enter-btn" id="enterBtn">🎉 Enter the Celebration</button>
+            <div class="sub-text">QR code – scan or click to enter</div>
+        </div>
+    </div>
+
+    <!-- ===== AMBIENT EFFECTS ===== -->
     <div class="hearts-container" id="heartsContainer"></div>
     <div class="sparkle-container" id="sparkleContainer"></div>
     <div class="stars" id="stars"></div>
     <div class="bg-candles" id="bgCandles"></div>
 
+    <!-- ===== BALLOONS ===== -->
     <div class="balloons-container" id="balloons">
         <div class="balloon" style="top:8%; left:5%; background:radial-gradient(circle at 30% 30%, #ff6b6b, #c0392b);"><span class="balloon-text">🎂 HAPPY</span></div>
         <div class="balloon" style="top:12%; right:6%; background:radial-gradient(circle at 30% 30%, #feca57, #e67e22); animation-delay:0.8s;"><span class="balloon-text">❤️ BIRTHDAY</span></div>
         <div class="balloon" style="bottom:18%; left:3%; background:radial-gradient(circle at 30% 30%, #48dbfb, #0984e3); animation-delay:1.6s;"><span class="balloon-text">💕 KARTIK</span></div>
         <div class="balloon" style="bottom:22%; right:4%; background:radial-gradient(circle at 30% 30%, #a29bfe, #6c5ce7); animation-delay:0.4s;"><span class="balloon-text">✨ 27-10-2K26</span></div>
-        <div class="balloon" style="top:30%; left:12%; background:radial-gradient(circle at 30% 30%, #fd79a8, #e84393); animation-delay:1.2s;"><img class="balloon-img" src="13.JPG" alt="Photo" /></div>
-        <div class="balloon" style="top:25%; right:10%; background:radial-gradient(circle at 30% 30%, #00b894, #00a86b); animation-delay:2.0s;"><img class="balloon-img" src="11.JPG" alt="Photo" /></div>
+        <div class="balloon" style="top:30%; left:12%; background:radial-gradient(circle at 30% 30%, #fd79a8, #e84393); animation-delay:1.2s;"><img class="balloon-img" src="13.jpg" alt="Photo" onerror="this.outerHTML='<span class=\\'balloon-emoji\\'>🎈</span>';" /></div>
+        <div class="balloon" style="top:25%; right:10%; background:radial-gradient(circle at 30% 30%, #00b894, #00a86b); animation-delay:2.0s;"><img class="balloon-img" src="11.jpg" alt="Photo" onerror="this.outerHTML='<span class=\\'balloon-emoji\\'>🎈</span>';" /></div>
         <div class="balloon" style="bottom:35%; left:18%; background:radial-gradient(circle at 30% 30%, #fdcb6e, #e17055); animation-delay:0.2s;"><span class="balloon-emoji">🎉</span></div>
         <div class="balloon" style="bottom:30%; right:15%; background:radial-gradient(circle at 30% 30%, #74b9ff, #0984e3); animation-delay:1.0s;"><span class="balloon-emoji">🎊</span></div>
     </div>
 
+    <!-- ===== CONFETTI ===== -->
     <div class="confetti-container" id="confetti"></div>
+
+    <!-- ===== BUILD STATUS ===== -->
     <div class="build-status" id="buildStatus">
         <span>🎂 Building cake</span>
         <span id="layerCount">0</span>
@@ -1318,12 +1477,12 @@
         <div class="dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
     </div>
 
+    <!-- ===== CAKE ===== -->
     <div class="cake-wrapper">
         <div class="cake">
+            <!-- LAYER 4 (top) -->
             <div class="layer layer4" id="layer4">
-                <div class="frosting" style="background:linear-gradient(135deg, #a18cd1, #fbc2eb, #f6d365);">
-                    <div class="drip"></div><div class="drip"></div><div class="drip"></div><div class="drip"></div><div class="drip"></div>
-                </div>
+                <div class="frosting"><div class="drip"></div><div class="drip"></div><div class="drip"></div><div class="drip"></div><div class="drip"></div></div>
                 <div class="sprinkles" id="sprinkles4"></div>
                 <div class="candle-wrap">
                     <div class="candle"><div class="candle--light cake-candle-light"></div><div class="candle--wick"></div><div class="candle--wax"></div><div class="candle--glow cake-candle-glow"></div></div>
@@ -1331,10 +1490,9 @@
                     <div class="candle"><div class="candle--light cake-candle-light"></div><div class="candle--wick"></div><div class="candle--wax"></div><div class="candle--glow cake-candle-glow"></div></div>
                 </div>
             </div>
+            <!-- LAYER 3 -->
             <div class="layer layer3" id="layer3">
-                <div class="frosting" style="background:linear-gradient(135deg, #f6d365, #fda085, #f093fb);">
-                    <div class="drip"></div><div class="drip"></div><div class="drip"></div><div class="drip"></div><div class="drip"></div>
-                </div>
+                <div class="frosting"><div class="drip"></div><div class="drip"></div><div class="drip"></div><div class="drip"></div><div class="drip"></div></div>
                 <div class="sprinkles" id="sprinkles3"></div>
                 <div class="text-wrap2">
                     <div class="rotating-text2">🎈 Party Time!</div>
@@ -1344,10 +1502,9 @@
                     <div class="rotating-text2">🌟 Star of the Day</div>
                 </div>
             </div>
+            <!-- LAYER 2 -->
             <div class="layer layer2" id="layer2">
-                <div class="frosting" style="background:linear-gradient(135deg, #43e97b, #38f9d7, #fa709a);">
-                    <div class="drip"></div><div class="drip"></div><div class="drip"></div><div class="drip"></div><div class="drip"></div>
-                </div>
+                <div class="frosting"><div class="drip"></div><div class="drip"></div><div class="drip"></div><div class="drip"></div><div class="drip"></div></div>
                 <div class="sprinkles" id="sprinkles2"></div>
                 <div class="text-wrap">
                     <div class="rotating-text">🎂 Happy Birthday 🎉</div>
@@ -1356,13 +1513,18 @@
                     <div class="rotating-text">✨ Make a Wish! 🌟</div>
                 </div>
             </div>
+            <!-- LAYER 1 (bottom) -->
             <div class="layer layer1" id="layer1">
-                <div class="frosting" style="background:linear-gradient(135deg, #f093fb, #f5576c, #4facfe);">
-                    <div class="drip"></div><div class="drip"></div><div class="drip"></div><div class="drip"></div><div class="drip"></div>
-                </div>
+                <div class="frosting"><div class="drip"></div><div class="drip"></div><div class="drip"></div><div class="drip"></div><div class="drip"></div></div>
                 <div class="sprinkles" id="sprinkles1"></div>
                 <div class="photo-wrap">
-                    <img src="1.JPG" alt="Photo" /><img src="2.JPG" alt="Photo" /><img src="3.JPG" alt="Photo" /><img src="4.PNG" alt="Photo" /><img src="5.JPG" alt="Photo" /><img src="6.JPEG" alt="Photo" /><img src="7.PNG" alt="Photo" />
+                    <img src="1.jpg" alt="Photo" onerror="this.outerHTML='<span style=\\'position:absolute;top:35px;left:calc(50%-37px);width:75px;height:75px;border-radius:50%;background:radial-gradient(circle,#feca57,#e67e22);display:flex;justify-content:center;align-items:center;font-size:32px;border:3px solid rgba(255,255,255,0.9);\\'>📸</span>';" />
+                    <img src="2.jpg" alt="Photo" onerror="this.outerHTML='<span style=\\'position:absolute;top:35px;left:calc(50%-37px);width:75px;height:75px;border-radius:50%;background:radial-gradient(circle,#feca57,#e67e22);display:flex;justify-content:center;align-items:center;font-size:32px;border:3px solid rgba(255,255,255,0.9);\\'>📸</span>';" />
+                    <img src="3.jpg" alt="Photo" onerror="this.outerHTML='<span style=\\'position:absolute;top:35px;left:calc(50%-37px);width:75px;height:75px;border-radius:50%;background:radial-gradient(circle,#feca57,#e67e22);display:flex;justify-content:center;align-items:center;font-size:32px;border:3px solid rgba(255,255,255,0.9);\\'>📸</span>';" />
+                    <img src="4.png" alt="Photo" onerror="this.outerHTML='<span style=\\'position:absolute;top:35px;left:calc(50%-37px);width:75px;height:75px;border-radius:50%;background:radial-gradient(circle,#feca57,#e67e22);display:flex;justify-content:center;align-items:center;font-size:32px;border:3px solid rgba(255,255,255,0.9);\\'>📸</span>';" />
+                    <img src="5.jpg" alt="Photo" onerror="this.outerHTML='<span style=\\'position:absolute;top:35px;left:calc(50%-37px);width:75px;height:75px;border-radius:50%;background:radial-gradient(circle,#feca57,#e67e22);display:flex;justify-content:center;align-items:center;font-size:32px;border:3px solid rgba(255,255,255,0.9);\\'>📸</span>';" />
+                    <img src="6.jpeg" alt="Photo" onerror="this.outerHTML='<span style=\\'position:absolute;top:35px;left:calc(50%-37px);width:75px;height:75px;border-radius:50%;background:radial-gradient(circle,#feca57,#e67e22);display:flex;justify-content:center;align-items:center;font-size:32px;border:3px solid rgba(255,255,255,0.9);\\'>📸</span>';" />
+                    <img src="7.png" alt="Photo" onerror="this.outerHTML='<span style=\\'position:absolute;top:35px;left:calc(50%-37px);width:75px;height:75px;border-radius:50%;background:radial-gradient(circle,#feca57,#e67e22);display:flex;justify-content:center;align-items:center;font-size:32px;border:3px solid rgba(255,255,255,0.9);\\'>📸</span>';" />
                 </div>
             </div>
             <div class="center-text" id="centerText">Happy Birthday Kartik</div>
@@ -1370,6 +1532,7 @@
         </div>
     </div>
 
+    <!-- ===== WISH OVERLAY ===== -->
     <div class="wish-overlay" id="wishOverlay">
         <div class="wish-box">
             <h1>✨ Make a Wish! ✨</h1>
@@ -1378,11 +1541,12 @@
         </div>
     </div>
 
+    <!-- ===== PHOTO MODAL ===== -->
     <div class="photo-modal" id="photoModal">
         <div class="modal-content">
             <span class="modal-close" id="modalClose">&times;</span>
             <div class="modal-img-wrap" id="modalImgWrap">
-                <img id="modalImg" src="1.JPG" alt="Birthday Memory" />
+                <img id="modalImg" src="1.jpg" alt="Birthday Memory" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22400%22%3E%3Crect fill=%22%232b1a3a%22 width=%22400%22 height=%22400%22/%3E%3Ctext x=%22200%22 y=%22200%22 text-anchor=%22middle%22 dy=%22.3em%22 font-size=%2240%22 fill=%22%23feca57%22%3E📸%3C/text%3E%3C/svg%3E';" />
             </div>
             <div class="modal-caption" id="modalCaption">Special Memory ✨ (1/7)</div>
             <div class="zoom-controls">
@@ -1396,10 +1560,433 @@
         </div>
     </div>
 
+    <!-- ===== AUDIO PLAYER (hidden) ===== -->
+    <audio id="birthdaySong" loop preload="auto">
+        <source src="song.mp3" type="audio/mpeg">
+    </audio>
+
     <script>
         document.addEventListener("DOMContentLoaded", () => {
 
-          
+            // ===== SONG PLAYBACK CONTROL =====
+            const songAudio = document.getElementById('birthdaySong');
+
+            function playBirthdaySong() {
+                songAudio.pause();
+                songAudio.currentTime = 0;
+                songAudio.load();
+                
+                let playPromise = songAudio.play();
+                
+                if (playPromise !== undefined) {
+                    playPromise.then(_ => {
+                        console.log("Song started playing successfully!");
+                    }).catch(error => {
+                        console.log("Playback blocked by browser: ", error);
+                        // Fallback: Mobile browsers (like iOS Safari) might need another touch to play
+                        const playOnTouch = () => {
+                            songAudio.play();
+                            document.removeEventListener('touchstart', playOnTouch);
+                            document.removeEventListener('click', playOnTouch);
+                        };
+                        document.addEventListener('touchstart', playOnTouch);
+                        document.addEventListener('click', playOnTouch);
+                    });
+                }
+            }
+
+            function stopBirthdaySong() {
+                songAudio.pause();
+                songAudio.currentTime = 0;
+            }
+
+            // ===== QR CODE =====
+            const qrImage = document.getElementById('qrImage');
+            const currentUrl = encodeURIComponent(
+                'https://atulsahu8878.github.io/kartikBirthday/index_qr.html'
+            );
+            qrImage.src = `https://api.qrserver.com/v1/create-qr-code/?data=${currentUrl}&size=300x300&margin=12`;
+
+            // ===== QR OVERLAY DISMISS =====
+            const qrOverlay = document.getElementById('qr-overlay');
+            const enterBtn = document.getElementById('enterBtn');
+
+            function dismissOverlay() {
+                qrOverlay.classList.add('hidden');
+                setTimeout(() => { initCakeBuild(); }, 1200);
+            }
+
+            enterBtn.addEventListener('click', function(e) {
+                playBirthdaySong();
+                dismissOverlay();
+            });
+
+            qrOverlay.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    if (!qrOverlay.classList.contains('hidden')) {
+                        qrOverlay.classList.add('hidden');
+                        setTimeout(() => { initCakeBuild(); }, 1200);
+                    }
+                }
+            });
+
+            // ===== CAKE BUILD =====
+            let buildStarted = false;
+            let wishShown = false; // prevent double-showing the wish overlay
+
+            function initCakeBuild() {
+                if (buildStarted) return;
+                buildStarted = true;
+
+                const tray = document.getElementById("tray");
+                const layers = [
+                    document.getElementById("layer1"),
+                    document.getElementById("layer2"),
+                    document.getElementById("layer3"),
+                    document.getElementById("layer4")
+                ];
+                const centerText = document.getElementById("centerText");
+                const layerCount = document.getElementById("layerCount");
+                const dots = document.querySelectorAll(".build-status .dot");
+                const buildStatus = document.getElementById("buildStatus");
+
+                setTimeout(() => tray.classList.add("visible"), 1000);
+
+                layers.forEach((layer, idx) => {
+                    setTimeout(() => {
+                        layer.classList.add("visible");
+                        layerCount.textContent = idx + 1;
+                        if (dots[idx]) dots[idx].classList.add("active");
+                        if (idx === layers.length - 1) {
+                            setTimeout(() => {
+                                centerText.classList.add("visible");
+                                buildStatus.style.opacity = "0";
+                                setTimeout(turnOffAllCandles, 2500);
+                            }, 1500);
+                        }
+                    }, 2000 + idx * 2500);
+                });
+
+                function turnOffAllCandles() {
+                    const cakeFlames = document.querySelectorAll(".cake-candle-light");
+                    const cakeGlows = document.querySelectorAll(".cake-candle-glow");
+                    const bgFlames = document.querySelectorAll(".bg-candle-light");
+                    const bgGlows = document.querySelectorAll(".bg-candle-glow");
+
+                    cakeFlames.forEach((flame, index) => {
+                        setTimeout(() => {
+                            flame.classList.add("extinguished");
+                            if (cakeGlows[index]) cakeGlows[index].classList.add("extinguished");
+                            if (index === cakeFlames.length - 1) {
+                                bgFlames.forEach((bf, bi) => {
+                                    setTimeout(() => {
+                                        bf.classList.add("extinguished");
+                                        if (bgGlows[bi]) bgGlows[bi].classList.add(
+                                            "extinguished");
+                                    }, bi * 100);
+                                });
+                                setTimeout(popBalloons, 2800);
+                            }
+                        }, index * 1800);
+                    });
+                }
+
+                function popBalloons() {
+                    const balloons = document.querySelectorAll(".balloon");
+                    balloons.forEach((balloon, index) => {
+                        setTimeout(() => {
+                            balloon.classList.add("popped");
+                            if (index === balloons.length - 1) setTimeout(startPhotoModalSequence,
+                                2000);
+                        }, index * 1000);
+                    });
+                }
+
+                // ===== PHOTO SLIDESHOW =====
+                const photoList = ["8.png", "9.jpg", "15.jpg", "5.jpg", "12.jpg", "16.jpg", "14.png"];
+                const photoModal = document.getElementById("photoModal");
+                const modalImg = document.getElementById("modalImg");
+                const modalCaption = document.getElementById("modalCaption");
+                const modalImgWrap = document.getElementById("modalImgWrap");
+                const wishOverlay = document.getElementById("wishOverlay");
+                const modalClose = document.getElementById("modalClose");
+                const nextPhotoBtn = document.getElementById("nextPhotoBtn");
+                const zoomInBtn = document.getElementById("zoomInBtn");
+                const zoomOutBtn = document.getElementById("zoomOutBtn");
+                const resetZoomBtn = document.getElementById("resetZoomBtn");
+                const zoomLabel = document.getElementById("zoomLabel");
+                const transLabel = document.getElementById("transLabel");
+
+                const transitionTypes = ['zoom-in', 'zoom-out', 'fade', 'slide-left', 'flip'];
+                const transitionLabels = {
+                    'zoom-in': '🔍 Zoom In',
+                    'zoom-out': '🔎 Zoom Out',
+                    'fade': '🌫️ Fade',
+                    'slide-left': '➡️ Slide Left',
+                    'flip': '🔄 Flip'
+                };
+                let currentTransitionIndex = 0;
+                let currentPhotoIndex = 0;
+                let currentZoom = 1;
+                const ZOOM_STEP = 0.15;
+                const MIN_ZOOM = 0.4;
+                const MAX_ZOOM = 2.8;
+                let photoInterval = null;
+                let autoCloseTimer = null;
+
+                function getTransitionClass(type) {
+                    const map = {
+                        'zoom-in': 'trans-zoom-in',
+                        'zoom-out': 'trans-zoom-out',
+                        'fade': 'trans-fade',
+                        'slide-left': 'trans-slide-left',
+                        'flip': 'trans-flip'
+                    };
+                    return map[type] || 'trans-fade';
+                }
+
+                function showWishAndStopSong() {
+                    if (wishShown) return;
+                    wishShown = true;
+                    photoModal.classList.remove("active");
+                    wishOverlay.classList.add("active");
+                    stopBirthdaySong();
+                    if (autoCloseTimer) {
+                        clearTimeout(autoCloseTimer);
+                        autoCloseTimer = null;
+                    }
+                }
+
+                function showPhoto(index, transitionType) {
+                    if (!transitionType) {
+                        transitionType = transitionTypes[currentTransitionIndex % transitionTypes.length];
+                    }
+                    const imgSrc = photoList[index % photoList.length];
+                    const cls = getTransitionClass(transitionType);
+
+                    modalImg.classList.remove(
+                        'trans-zoom-in', 'trans-zoom-out', 'trans-fade',
+                        'trans-slide-left', 'trans-flip'
+                    );
+                    void modalImg.offsetWidth;
+                    modalImg.src = imgSrc;
+                    modalImg.classList.add(cls);
+                    modalCaption.textContent =
+                        `Special Memory ✨ (${(index % photoList.length) + 1}/${photoList.length})`;
+
+                    transLabel.textContent = transitionLabels[transitionType] || '✨ Zoom In';
+                    updateZoomLabel();
+                    currentTransitionIndex = (currentTransitionIndex + 1) % transitionTypes.length;
+                    currentPhotoIndex = index;
+
+                    // === AUTO-CLOSE AFTER 7th PHOTO (index 6) ===
+                    if (index === photoList.length - 1) {
+                        // Clear the auto-play interval so it doesn't loop
+                        if (photoInterval) {
+                            clearInterval(photoInterval);
+                            photoInterval = null;
+                        }
+                        // Schedule the wish overlay after 1 second
+                        if (autoCloseTimer) {
+                            clearTimeout(autoCloseTimer);
+                            autoCloseTimer = null;
+                        }
+                        autoCloseTimer = setTimeout(() => {
+                            showWishAndStopSong();
+                        }, 1000);
+                    }
+                }
+
+                function updateZoomLabel() {
+                    zoomLabel.textContent = Math.round(currentZoom * 100) + '%';
+                    modalImg.style.transform = `scale(${currentZoom})`;
+                }
+
+                function nextPhoto() {
+                    const nextIdx = (currentPhotoIndex + 1) % photoList.length;
+                    const transType = transitionTypes[currentTransitionIndex % transitionTypes.length];
+                    showPhoto(nextIdx, transType);
+                    currentTransitionIndex = (currentTransitionIndex + 1) % transitionTypes.length;
+                }
+
+                zoomInBtn.addEventListener("click", () => {
+                    currentZoom = Math.min(MAX_ZOOM, currentZoom + ZOOM_STEP);
+                    updateZoomLabel();
+                });
+                zoomOutBtn.addEventListener("click", () => {
+                    currentZoom = Math.max(MIN_ZOOM, currentZoom - ZOOM_STEP);
+                    updateZoomLabel();
+                });
+                resetZoomBtn.addEventListener("click", () => {
+                    currentZoom = 1;
+                    updateZoomLabel();
+                });
+
+                modalImgWrap.addEventListener("wheel", (e) => {
+                    e.preventDefault();
+                    if (e.deltaY < 0) {
+                        currentZoom = Math.min(MAX_ZOOM, currentZoom + ZOOM_STEP);
+                    } else {
+                        currentZoom = Math.max(MIN_ZOOM, currentZoom - ZOOM_STEP);
+                    }
+                    updateZoomLabel();
+                }, { passive: false });
+
+                let lastTouchDist = 0;
+                modalImgWrap.addEventListener("touchstart", (e) => {
+                    if (e.touches.length === 2) {
+                        const dx = e.touches[0].clientX - e.touches[1].clientX;
+                        const dy = e.touches[0].clientY - e.touches[1].clientY;
+                        lastTouchDist = Math.hypot(dx, dy);
+                    }
+                }, { passive: true });
+
+                modalImgWrap.addEventListener("touchmove", (e) => {
+                    if (e.touches.length === 2) {
+                        const dx = e.touches[0].clientX - e.touches[1].clientX;
+                        const dy = e.touches[0].clientY - e.touches[1].clientY;
+                        const dist = Math.hypot(dx, dy);
+                        if (lastTouchDist > 0) {
+                            const delta = (dist - lastTouchDist) / 20;
+                            currentZoom = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, currentZoom + delta));
+                            updateZoomLabel();
+                        }
+                        lastTouchDist = dist;
+                    }
+                }, { passive: true });
+
+                modalImgWrap.addEventListener("touchend", () => {
+                    lastTouchDist = 0;
+                }, { passive: true });
+
+                nextPhotoBtn.addEventListener("click", () => {
+                    if (photoInterval) {
+                        clearInterval(photoInterval);
+                        photoInterval = null;
+                    }
+                    if (autoCloseTimer) {
+                        clearTimeout(autoCloseTimer);
+                        autoCloseTimer = null;
+                    }
+                    nextPhoto();
+                    startAutoPlay();
+                });
+
+                // ===== CLOSE PHOTO MODAL (manual) → show wish + stop song =====
+                modalClose.addEventListener("click", () => {
+                    if (autoCloseTimer) {
+                        clearTimeout(autoCloseTimer);
+                        autoCloseTimer = null;
+                    }
+                    showWishAndStopSong();
+                });
+
+                function startAutoPlay() {
+                    if (photoInterval) clearInterval(photoInterval);
+                    photoInterval = setInterval(() => {
+                        // If we've already shown the wish, stop auto-play
+                        if (wishShown) {
+                            clearInterval(photoInterval);
+                            photoInterval = null;
+                            return;
+                        }
+                        // If we're at the last photo, don't auto-advance (wait for the timeout)
+                        if (currentPhotoIndex === photoList.length - 1) {
+                            return;
+                        }
+                        nextPhoto();
+                    }, 3200);
+                }
+
+                function startPhotoModalSequence() {
+                    currentPhotoIndex = 0;
+                    currentTransitionIndex = 0;
+                    currentZoom = 1;
+                    wishShown = false;
+                    modalImg.style.transform = 'scale(1)';
+                    photoModal.classList.add("active");
+                    showPhoto(0, 'fade');
+                    startAutoPlay();
+                }
+
+                modalImg.addEventListener("click", () => {
+                    if (photoInterval) {
+                        clearInterval(photoInterval);
+                        photoInterval = null;
+                    }
+                    if (autoCloseTimer) {
+                        clearTimeout(autoCloseTimer);
+                        autoCloseTimer = null;
+                    }
+                    nextPhoto();
+                    startAutoPlay();
+                });
+
+                // ===== CANDLE CLICK =====
+                document.querySelectorAll(".candle .candle--light").forEach(flame => {
+                    flame.addEventListener("click", function(e) {
+                        e.stopPropagation();
+                        const parent = this.closest(".candle");
+                        const glow = parent ? parent.querySelector(".candle--glow") : null;
+                        if (!this.classList.contains("extinguished")) {
+                            this.classList.add("extinguished");
+                            if (glow) glow.classList.add("extinguished");
+                        }
+                    });
+                    flame.addEventListener("touchstart", function(e) {
+                        e.preventDefault();
+                        const parent = this.closest(".candle");
+                        const glow = parent ? parent.querySelector(".candle--glow") : null;
+                        if (!this.classList.contains("extinguished")) {
+                            this.classList.add("extinguished");
+                            if (glow) glow.classList.add("extinguished");
+                        }
+                    }, { passive: false });
+                });
+
+                // ===== KEYBOARD SHORTCUTS =====
+                document.addEventListener("keydown", (e) => {
+                    if (!photoModal.classList.contains("active")) return;
+                    if (e.key === "ArrowRight" || e.key === " " || e.key === "n") {
+                        e.preventDefault();
+                        if (photoInterval) {
+                            clearInterval(photoInterval);
+                            photoInterval = null;
+                        }
+                        if (autoCloseTimer) {
+                            clearTimeout(autoCloseTimer);
+                            autoCloseTimer = null;
+                        }
+                        nextPhoto();
+                        startAutoPlay();
+                    }
+                    if (e.key === "Escape") {
+                        modalClose.click();
+                    }
+                    if (e.key === "+" || e.key === "=") {
+                        e.preventDefault();
+                        zoomInBtn.click();
+                    }
+                    if (e.key === "-" || e.key === "_") {
+                        e.preventDefault();
+                        zoomOutBtn.click();
+                    }
+                    if (e.key === "r" || e.key === "R") {
+                        resetZoomBtn.click();
+                    }
+                });
+
+                photoModal.addEventListener("click", (e) => {
+                    if (e.target === photoModal) {
+                        modalClose.click();
+                    }
+                });
+
+                console.log("🎂 Happy Birthday Kartik! White cake loaded ✨");
+            }
+
+            // ===== AMBIENT ELEMENTS =====
+            // Stars
             const stars = document.getElementById("stars");
             for (let i = 0; i < 80; i++) {
                 const s = document.createElement("div");
@@ -1410,8 +1997,8 @@
                 stars.appendChild(s);
             }
 
-           
-            const colors = ["#ff6b6b", "#feca57", "#48dbfb", "#ff9ff3", "#00b894"];
+            // Sprinkles
+            const colors = ["#ff6b6b", "#feca57", "#48dbfb", "#ff9ff3", "#00b894", "#ff9f43", "#a29bfe", "#fd79a8"];
             [1, 2, 3, 4].forEach(n => {
                 const wrap = document.getElementById("sprinkles" + n);
                 if (wrap)
@@ -1425,7 +2012,7 @@
                     }
             });
 
-          
+            // Confetti
             const confetti = document.getElementById("confetti");
             for (let i = 0; i < 40; i++) {
                 const c = document.createElement("div");
@@ -1437,46 +2024,47 @@
                 confetti.appendChild(c);
             }
 
-         
+            // ===== BACKGROUND CANDLES =====
             const bg = document.getElementById("bgCandles");
-            const candleColors = ['#ff6b6b', '#feca57', '#48dbfb', '#ff9ff3', '#00b894', '#fd79a8', '#e17055', '#0984e3',
-                '#6c5ce7', '#fdcb6e', '#e84393', '#00cec9', '#f093fb', '#4facfe', '#43e97b', '#fa709a', '#a29bfe',
-                '#74b9ff', '#55efc4', '#f8a5c2', '#e77f67', '#f19066'
+            const candleColors = [
+                '#ff6b6b', '#feca57', '#48dbfb', '#ff9ff3', '#00b894',
+                '#fd79a8', '#e17055', '#0984e3', '#6c5ce7', '#fdcb6e',
+                '#e84393', '#00cec9', '#f093fb', '#4facfe', '#43e97b',
+                '#fa709a', '#a29bfe', '#74b9ff', '#55efc4', '#f8a5c2',
+                '#e77f67', '#f19066', '#ff6348', '#7bed9f', '#70a1ff',
+                '#ff4757', '#2ed573', '#1e90ff', '#ff6b81', '#a4b0be'
             ];
 
-            function darken(hex, amt) {
-                let r = parseInt(hex.slice(1, 3), 16),
-                    g = parseInt(hex.slice(3, 5), 16),
-                    b = parseInt(hex.slice(5, 7), 16);
-                r = Math.max(0, Math.min(255, r + amt));
-                g = Math.max(0, Math.min(255, g + amt));
-                b = Math.max(0, Math.min(255, b + amt));
-                return `#${r.toString(16).padStart(2,'0')}${g.toString(16).padStart(2,'0')}${b.toString(16).padStart(2,'0')}`;
-            }
             for (let i = 0; i < 30; i++) {
                 const candle = document.createElement("div");
                 candle.className = "bg-candle";
-                const color = candleColors[i % candleColors.length];
+                const color = candleColors[Math.floor(Math.random() * candleColors.length)];
                 candle.style.left = (2 + Math.random() * 96) + "%";
                 candle.style.top = (2 + Math.random() * 92) + "%";
                 candle.style.animationDelay = Math.random() * 2 + "s";
-                candle.dataset.index = i;
+
                 const wax = document.createElement("div");
                 wax.className = "candle--wax";
-                wax.style.background = `linear-gradient(to bottom, ${color}, ${darken(color, 30)})`;
+                wax.style.background = `linear-gradient(135deg, ${color}, ${color}dd, ${color}aa)`;
+                wax.style.boxShadow = `inset -3px 0 12px rgba(0,0,0,0.25), inset 0 2px 8px rgba(255,255,255,0.2)`;
+
                 const wick = document.createElement("div");
                 wick.className = "candle--wick";
+
                 const light = document.createElement("div");
                 light.className = "candle--light bg-candle-light";
                 light.style.animationDelay = Math.random() * 0.5 + "s";
+
                 const glow = document.createElement("div");
                 glow.className = "candle--glow bg-candle-glow";
                 glow.style.animationDelay = Math.random() * 0.5 + "s";
+
                 candle.appendChild(light);
                 candle.appendChild(wick);
                 candle.appendChild(wax);
                 candle.appendChild(glow);
                 bg.appendChild(candle);
+
                 candle.addEventListener("click", function(e) {
                     e.stopPropagation();
                     const l = this.querySelector(".bg-candle-light");
@@ -1486,9 +2074,18 @@
                         if (g) g.classList.add("extinguished");
                     }
                 });
+                candle.addEventListener("touchstart", function(e) {
+                    e.preventDefault();
+                    const l = this.querySelector(".bg-candle-light");
+                    const g = this.querySelector(".bg-candle-glow");
+                    if (l && !l.classList.contains("extinguished")) {
+                        l.classList.add("extinguished");
+                        if (g) g.classList.add("extinguished");
+                    }
+                }, { passive: false });
             }
 
-          
+            // Hearts
             const heartsContainer = document.getElementById("heartsContainer");
             const heartEmojis = ['❤️', '💕', '💖', '💗', '💓', '♥️', '❤️‍🔥', '💝'];
             for (let i = 0; i < 28; i++) {
@@ -1503,7 +2100,7 @@
                 heartsContainer.appendChild(h);
             }
 
-            
+            // Sparkles
             const sparkleContainer = document.getElementById("sparkleContainer");
             const sparklePositions = [];
             const centerX = 50,
@@ -1522,7 +2119,7 @@
                     y: 10 + Math.random() * 80
                 });
             }
-            sparklePositions.forEach((pos, idx) => {
+            sparklePositions.forEach((pos) => {
                 const sp = document.createElement("div");
                 sp.className = "sparkle";
                 sp.style.left = pos.x + "%";
@@ -1534,271 +2131,9 @@
                 sparkleContainer.appendChild(sp);
             });
 
-            
-            const tray = document.getElementById("tray");
-            const layers = [
-                document.getElementById("layer1"),
-                document.getElementById("layer2"),
-                document.getElementById("layer3"),
-                document.getElementById("layer4")
-            ];
-            const centerText = document.getElementById("centerText");
-            const layerCount = document.getElementById("layerCount");
-            const dots = document.querySelectorAll(".build-status .dot");
-            const buildStatus = document.getElementById("buildStatus");
-
-            setTimeout(() => tray.classList.add("visible"), 1000);
-
-            layers.forEach((layer, idx) => {
-                setTimeout(() => {
-                    layer.classList.add("visible");
-                    layerCount.textContent = idx + 1;
-                    if (dots[idx]) dots[idx].classList.add("active");
-                    if (idx === layers.length - 1) {
-                        setTimeout(() => {
-                            centerText.classList.add("visible");
-                            buildStatus.style.opacity = "0";
-                            setTimeout(turnOffAllCandles, 2500);
-                        }, 1500);
-                    }
-                }, 2000 + idx * 2500);
-            });
-
-            function turnOffAllCandles() {
-                const cakeFlames = document.querySelectorAll(".cake-candle-light");
-                const cakeGlows = document.querySelectorAll(".cake-candle-glow");
-                const bgFlames = document.querySelectorAll(".bg-candle-light");
-                const bgGlows = document.querySelectorAll(".bg-candle-glow");
-
-                cakeFlames.forEach((flame, index) => {
-                    setTimeout(() => {
-                        flame.classList.add("extinguished");
-                        if (cakeGlows[index]) cakeGlows[index].classList.add("extinguished");
-                        if (index === cakeFlames.length - 1) {
-                            bgFlames.forEach((bf, bi) => {
-                                setTimeout(() => {
-                                    bf.classList.add("extinguished");
-                                    if (bgGlows[bi]) bgGlows[bi].classList.add("extinguished");
-                                }, bi * 100);
-                            });
-                            setTimeout(popBalloons, 2800);
-                        }
-                    }, index * 1800);
-                });
-            }
-
-            function popBalloons() {
-                const balloons = document.querySelectorAll(".balloon");
-                balloons.forEach((balloon, index) => {
-                    setTimeout(() => {
-                        balloon.classList.add("popped");
-                        if (index === balloons.length - 1) setTimeout(startPhotoModalSequence, 2000);
-                    }, index * 1000);
-                });
-            }
-
-            const photoList = ["8.PNG", "9.JPG", "10.JPG", "5.JPG", "12.JPG", "7.PNG", "14.PNG"];
-            const photoModal = document.getElementById("photoModal");
-            const modalImg = document.getElementById("modalImg");
-            const modalCaption = document.getElementById("modalCaption");
-            const modalImgWrap = document.getElementById("modalImgWrap");
-            const wishOverlay = document.getElementById("wishOverlay");
-            const modalClose = document.getElementById("modalClose");
-            const nextPhotoBtn = document.getElementById("nextPhotoBtn");
-            const zoomInBtn = document.getElementById("zoomInBtn");
-            const zoomOutBtn = document.getElementById("zoomOutBtn");
-            const resetZoomBtn = document.getElementById("resetZoomBtn");
-            const zoomLabel = document.getElementById("zoomLabel");
-            const transLabel = document.getElementById("transLabel");
-
-            const transitionTypes = ['zoom-in', 'zoom-out', 'fade', 'slide-left', 'flip'];
-            const transitionLabels = {
-                'zoom-in': '🔍 Zoom In',
-                'zoom-out': '🔎 Zoom Out',
-                'fade': '🌫️ Fade',
-                'slide-left': '➡️ Slide Left',
-                'flip': '🔄 Flip'
-            };
-            let currentTransitionIndex = 0;
-            let currentPhotoIndex = 0;
-            let currentZoom = 1;
-            const ZOOM_STEP = 0.15;
-            const MIN_ZOOM = 0.4;
-            const MAX_ZOOM = 2.8;
-            let photoInterval = null;
-
-            function getTransitionClass(type) {
-                const map = {
-                    'zoom-in': 'trans-zoom-in',
-                    'zoom-out': 'trans-zoom-out',
-                    'fade': 'trans-fade',
-                    'slide-left': 'trans-slide-left',
-                    'flip': 'trans-flip'
-                };
-                return map[type] || 'trans-fade';
-            }
-
-            function showPhoto(index, transitionType) {
-                if (!transitionType) {
-                    transitionType = transitionTypes[currentTransitionIndex % transitionTypes.length];
-                }
-                const imgSrc = photoList[index % photoList.length];
-                const cls = getTransitionClass(transitionType);
-
-                modalImg.classList.remove(
-                    'trans-zoom-in', 'trans-zoom-out', 'trans-fade',
-                    'trans-slide-left', 'trans-flip'
-                );
-
-                void modalImg.offsetWidth;
-
-                modalImg.src = imgSrc;
-                modalImg.classList.add(cls);
-
-                modalCaption.textContent =
-                    `Special Memory ✨ (${(index % photoList.length) + 1}/${photoList.length})`;
-
-                transLabel.textContent = transitionLabels[transitionType] || '✨ Zoom In';
-
-                updateZoomLabel();
-
-                currentTransitionIndex = (currentTransitionIndex + 1) % transitionTypes.length;
-                currentPhotoIndex = index;
-            }
-
-            function updateZoomLabel() {
-                zoomLabel.textContent = Math.round(currentZoom * 100) + '%';
-                modalImg.style.transform = `scale(${currentZoom})`;
-            }
-
-            function nextPhoto() {
-                const nextIdx = (currentPhotoIndex + 1) % photoList.length;
-                const transType = transitionTypes[currentTransitionIndex % transitionTypes.length];
-                showPhoto(nextIdx, transType);
-                currentTransitionIndex = (currentTransitionIndex + 1) % transitionTypes.length;
-            }
-
-            zoomInBtn.addEventListener("click", () => {
-                currentZoom = Math.min(MAX_ZOOM, currentZoom + ZOOM_STEP);
-                updateZoomLabel();
-            });
-            zoomOutBtn.addEventListener("click", () => {
-                currentZoom = Math.max(MIN_ZOOM, currentZoom - ZOOM_STEP);
-                updateZoomLabel();
-            });
-            resetZoomBtn.addEventListener("click", () => {
-                currentZoom = 1;
-                updateZoomLabel();
-            });
-            modalImgWrap.addEventListener("wheel", (e) => {
-                e.preventDefault();
-                if (e.deltaY < 0) {
-                    currentZoom = Math.min(MAX_ZOOM, currentZoom + ZOOM_STEP);
-                } else {
-                    currentZoom = Math.max(MIN_ZOOM, currentZoom - ZOOM_STEP);
-                }
-                updateZoomLabel();
-            }, { passive: false });
-
-            nextPhotoBtn.addEventListener("click", () => {
-                if (photoInterval) {
-                    clearInterval(photoInterval);
-                    photoInterval = null;
-                }
-                nextPhoto();
-                startAutoPlay();
-            });
-
-            modalClose.addEventListener("click", () => {
-                photoModal.classList.remove("active");
-                if (photoInterval) {
-                    clearInterval(photoInterval);
-                    photoInterval = null;
-                }
-                wishOverlay.classList.add("active");
-            });
-
-            function startAutoPlay() {
-                if (photoInterval) clearInterval(photoInterval);
-                photoInterval = setInterval(() => {
-                    nextPhoto();
-                }, 3200);
-            }
-
-            function startPhotoModalSequence() {
-                currentPhotoIndex = 0;
-                currentTransitionIndex = 0;
-                currentZoom = 1;
-                modalImg.style.transform = 'scale(1)';
-                photoModal.classList.add("active");
-               
-                showPhoto(0, 'fade');
-               
-                startAutoPlay();
-            }
-
-          
-            modalImg.addEventListener("click", () => {
-                if (photoInterval) {
-                    clearInterval(photoInterval);
-                    photoInterval = null;
-                }
-                nextPhoto();
-                startAutoPlay();
-            });
-
-          
-            document.querySelectorAll(".candle .candle--light").forEach(flame => {
-                flame.addEventListener("click", function(e) {
-                    e.stopPropagation();
-                    const parent = this.closest(".candle");
-                    const glow = parent ? parent.querySelector(".candle--glow") : null;
-                    if (!this.classList.contains("extinguished")) {
-                        this.classList.add("extinguished");
-                        if (glow) glow.classList.add("extinguished");
-                    }
-                });
-            });
-
-            document.addEventListener("keydown", (e) => {
-                if (!photoModal.classList.contains("active")) return;
-                if (e.key === "ArrowRight" || e.key === " " || e.key === "n") {
-                    e.preventDefault();
-                    if (photoInterval) {
-                        clearInterval(photoInterval);
-                        photoInterval = null;
-                    }
-                    nextPhoto();
-                    startAutoPlay();
-                }
-                if (e.key === "Escape") {
-                    modalClose.click();
-                }
-                if (e.key === "+" || e.key === "=") {
-                    e.preventDefault();
-                    zoomInBtn.click();
-                }
-                if (e.key === "-" || e.key === "_") {
-                    e.preventDefault();
-                    zoomOutBtn.click();
-                }
-                if (e.key === "r" || e.key === "R") {
-                    resetZoomBtn.click();
-                }
-            });
-
-            photoModal.addEventListener("click", (e) => {
-                if (e.target === photoModal) {
-                    modalClose.click();
-                }
-            });
-
-            console.log("🎂 Happy Birthday Kartik! All features loaded ✨");
-            console.log("📸 Photo modal: zoom with +/- keys, wheel, or buttons.");
-            console.log("❤️ Floating hearts & ✨ sparkles active.");
+            console.log("QR overlay ready – scan or click 'Enter' to start.");
         });
-
-        
     </script>
+
 </body>
-</html> 
+</html>
