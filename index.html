@@ -15,7 +15,8 @@
         #qr-overlay .qr-box h2 { color: #feca57; font-size: 28px; font-weight: 800; margin-bottom: 8px; letter-spacing: 1px; }
         #qr-overlay .qr-box p { color: rgba(255, 255, 255, 0.7); font-size: 16px; margin-bottom: 20px; }
         #qr-overlay .qr-box img { width: 100%; max-width: 220px; height: auto; border-radius: 16px; background: #fff; padding: 10px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); margin-bottom: 24px; image-rendering: pixelated; }
-        #qr-overlay .qr-box .enter-btn { background: linear-gradient(135deg, #feca57, #f6b93b); border: none; color: #1a0f2a; font-size: 22px; font-weight: 800; padding: 14px 40px; border-radius: 50px; cursor: pointer; transition: transform 0.25s, box-shadow 0.3s; box-shadow: 0 8px 25px rgba(254, 202, 87, 0.3); letter-spacing: 1px; touch-action: manipulation; }
+        
+        #qr-overlay .qr-box .enter-btn { background: linear-gradient(135deg, #feca57, #f6b93b); border: none; color: #1a0f2a; font-size: 22px; font-weight: 800; padding: 14px 40px; border-radius: 50px; cursor: pointer; transition: transform 0.25s, box-shadow 0.3s; box-shadow: 0 8px 25px rgba(254, 202, 87, 0.3); letter-spacing: 1px; touch-action: manipulation; width: 100%; }
         #qr-overlay .qr-box .enter-btn:hover { transform: scale(1.05); box-shadow: 0 12px 35px rgba(254, 202, 87, 0.5); }
         #qr-overlay .qr-box .enter-btn:active { transform: scale(0.95); }
         #qr-overlay .qr-box .sub-text { color: rgba(255, 255, 255, 0.4); font-size: 13px; margin-top: 16px; letter-spacing: 0.5px; }
@@ -254,7 +255,8 @@
         <div class="qr-box">
             <h2>📱 Scan to Celebrate</h2>
             <img id="qrImage" src="" alt="QR Code" />
-            <button class="enter-btn" id="enterBtn">🎉 Enter the Celebration</button>
+            <!-- Timer wala button -->
+            <button class="enter-btn" id="enterBtn" disabled>Entering in 5s...</button>
             <div class="sub-text">QR code – scan or click to enter</div>
         </div>
     </div>
@@ -362,7 +364,7 @@
 
     <!-- ===== AUDIO PLAYER ===== -->
     <audio id="birthdaySong" loop preload="auto">
-       <source src="song.mp3?v=100" type="audio/mpeg">
+       <source src="song.mp3?v=101" type="audio/mpeg">
     </audio>
 
     <script>
@@ -411,7 +413,25 @@
                 setTimeout(() => { initCakeBuild(); }, 1200);
             }
 
+            // ===== 5 SECOND AUTO ENTER LOGIC =====
+            let countdown = 5;
+            enterBtn.textContent = `Entering in ${countdown}s...`;
+            
+            const timer = setInterval(() => {
+                countdown--;
+                if (countdown > 0) {
+                    enterBtn.textContent = `Entering in ${countdown}s...`;
+                } else {
+                    clearInterval(timer);
+                    enterBtn.textContent = "Entering...";
+                    playBirthdaySong(); // Try to play song
+                    dismissOverlay();   // Go inside
+                }
+            }, 1000);
+
+            // Agar user manually button dabata hai
             enterBtn.addEventListener('click', function(e) {
+                clearInterval(timer);
                 playBirthdaySong();
                 dismissOverlay();
             });
@@ -419,6 +439,7 @@
             qrOverlay.addEventListener('click', function(e) {
                 if (e.target === this) {
                     if (!qrOverlay.classList.contains('hidden')) {
+                        clearInterval(timer);
                         qrOverlay.classList.add('hidden');
                         setTimeout(() => { initCakeBuild(); }, 1200);
                     }
