@@ -255,7 +255,6 @@
         <div class="qr-box">
             <h2>📱 Scan to Celebrate</h2>
             <img id="qrImage" src="" alt="QR Code" />
-            <!-- Timer wala button -->
             <button class="enter-btn" id="enterBtn" disabled>Entering in 5s...</button>
             <div class="sub-text">QR code – scan or click to enter</div>
         </div>
@@ -362,20 +361,23 @@
         </div>
     </div>
 
-    <!-- ===== AUDIO PLAYER ===== -->
+    <!-- Audio player (direct link trick for autoplay) -->
     <audio id="birthdaySong" loop preload="auto">
-       <source src="song.mp3?v=101" type="audio/mpeg">
+       <source src="song.mp3?v=102" type="audio/mpeg">
     </audio>
 
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const songAudio = document.getElementById('birthdaySong');
+            
+            // Force Load Audio
+            songAudio.load();
 
             function playBirthdaySong() {
                 songAudio.currentTime = 0;
                 let playPromise = songAudio.play();
                 if (playPromise !== undefined) {
-                    playPromise.catch(err => console.log("Blocked, waiting for touch"));
+                    playPromise.catch(err => console.log("Autoplay blocked. Waiting for user interaction."));
                 }
             }
 
@@ -384,22 +386,9 @@
                 songAudio.currentTime = 0;
             }
 
-            // ===== MOBILE AUTOPLAY UNLOCK TRICK =====
-            document.body.addEventListener('touchstart', function() {
-                if (document.getElementById('qr-overlay').classList.contains('hidden')) {
-                    if (songAudio.paused) {
-                        songAudio.play().catch(e => {});
-                    }
-                }
-            }, { passive: true });
-
-            document.body.addEventListener('click', function() {
-                if (document.getElementById('qr-overlay').classList.contains('hidden')) {
-                    if (songAudio.paused) {
-                        songAudio.play().catch(e => {});
-                    }
-                }
-            }, { passive: true });
+            // === BINA CLICK KE CHALANE KA TRICK ===
+            // Jaise hi page load hoga, hum gaana chalu karne ki koshish karenge
+            playBirthdaySong();
 
             const qrImage = document.getElementById('qrImage');
             const currentUrl = encodeURIComponent('https://atulsahu8878.github.io/kartikBirthday/');
@@ -424,12 +413,12 @@
                 } else {
                     clearInterval(timer);
                     enterBtn.textContent = "Entering...";
-                    playBirthdaySong(); // Try to play song
+                    playBirthdaySong(); // Play again just in case
                     dismissOverlay();   // Go inside
                 }
             }, 1000);
 
-            // Agar user manually button dabata hai
+            // Agar user manually button dabata hai toh turant andar jayega
             enterBtn.addEventListener('click', function(e) {
                 clearInterval(timer);
                 playBirthdaySong();
