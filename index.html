@@ -360,7 +360,7 @@
         </div>
     </div>
 
-    <!-- ===== AUDIO PLAYER (Fixed with direct link) ===== -->
+    <!-- ===== AUDIO PLAYER ===== -->
     <audio id="birthdaySong" loop preload="auto">
        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
     </audio>
@@ -371,24 +371,7 @@
 
             function playBirthdaySong() {
                 songAudio.currentTime = 0;
-                
-                let playPromise = songAudio.play();
-                
-                if (playPromise !== undefined) {
-                    playPromise.then(_ => {
-                        console.log("Song started playing successfully!");
-                    }).catch(error => {
-                        console.log("Playback blocked by browser.", error);
-                        
-                        const playOnTouch = () => {
-                            songAudio.play();
-                            document.removeEventListener('touchstart', playOnTouch);
-                            document.removeEventListener('click', playOnTouch);
-                        };
-                        document.addEventListener('touchstart', playOnTouch);
-                        document.addEventListener('click', playOnTouch);
-                    });
-                }
+                songAudio.play().catch(err => console.log("Audio play blocked, waiting for touch..."));
             }
 
             function stopBirthdaySong() {
@@ -396,9 +379,18 @@
                 songAudio.currentTime = 0;
             }
 
+            // ===== MOBILE AUTOPLAY UNLOCK TRICK =====
+            document.body.addEventListener('touchstart', function() {
+                // Agar QR overlay hide ho gaya hai (matlab user andar aa gaya hai) aur gaana nahi baj raha, toh bajao
+                if (document.getElementById('qr-overlay').classList.contains('hidden')) {
+                    if (songAudio.paused) {
+                        songAudio.play().catch(e => {});
+                    }
+                }
+            }, { passive: true });
+
             const qrImage = document.getElementById('qrImage');
-          /* const currentUrl = encodeURIComponent('https://atulsahu8878.github.io/kartikBirthday/index.html');*/
-        const currentUrl = encodeURIComponent('https://atulsahu8878.github.io/kartikBirthday/');
+            const currentUrl = encodeURIComponent('https://atulsahu8878.github.io/kartikBirthday/');
             qrImage.src = `https://api.qrserver.com/v1/create-qr-code/?data=${currentUrl}&size=300x300&margin=12`;
 
             const qrOverlay = document.getElementById('qr-overlay');
