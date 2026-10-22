@@ -360,9 +360,9 @@
         </div>
     </div>
 
-    <!-- ===== AUDIO PLAYER ===== -->
+    <!-- ===== AUDIO PLAYER (Fixed with direct link) ===== -->
     <audio id="birthdaySong" loop preload="auto">
-       <source src="song.mp3?v=10" type="audio/mpeg">
+       <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
     </audio>
 
     <script>
@@ -371,14 +371,15 @@
 
             function playBirthdaySong() {
                 songAudio.currentTime = 0;
+                
                 let playPromise = songAudio.play();
                 
                 if (playPromise !== undefined) {
                     playPromise.then(_ => {
-                        console.log("Song playing!");
+                        console.log("Song started playing successfully!");
                     }).catch(error => {
-                        console.log("Autoplay blocked. Waiting for user touch.", error);
-                        // Agar mobile browser ne block kiya, toh next touch par play karega
+                        console.log("Playback blocked by browser.", error);
+                        
                         const playOnTouch = () => {
                             songAudio.play();
                             document.removeEventListener('touchstart', playOnTouch);
