@@ -17,7 +17,6 @@
         #qr-overlay .qr-box img { width: 100%; max-width: 220px; height: auto; border-radius: 16px; background: #fff; padding: 10px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); margin-bottom: 24px; image-rendering: pixelated; }
         
         #qr-overlay .qr-box .enter-btn { background: linear-gradient(135deg, #feca57, #f6b93b); border: none; color: #1a0f2a; font-size: 22px; font-weight: 800; padding: 14px 40px; border-radius: 50px; cursor: pointer; transition: transform 0.25s, box-shadow 0.3s; box-shadow: 0 8px 25px rgba(254, 202, 87, 0.3); letter-spacing: 1px; touch-action: manipulation; width: 100%; }
-        #qr-overlay .qr-box .enter-btn:hover { transform: scale(1.05); box-shadow: 0 12px 35px rgba(254, 202, 87, 0.5); }
         #qr-overlay .qr-box .enter-btn:active { transform: scale(0.95); }
         #qr-overlay .qr-box .sub-text { color: rgba(255, 255, 255, 0.4); font-size: 13px; margin-top: 16px; letter-spacing: 0.5px; }
 
@@ -361,23 +360,20 @@
         </div>
     </div>
 
-    <!-- Audio player (direct link trick for autoplay) -->
+    <!-- ===== AUDIO PLAYER ===== -->
     <audio id="birthdaySong" loop preload="auto">
-       <source src="song.mp3?v=102" type="audio/mpeg">
+       <source src="song.mp3?v=200" type="audio/mpeg">
     </audio>
 
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const songAudio = document.getElementById('birthdaySong');
-            
-            // Force Load Audio
-            songAudio.load();
 
             function playBirthdaySong() {
                 songAudio.currentTime = 0;
                 let playPromise = songAudio.play();
                 if (playPromise !== undefined) {
-                    playPromise.catch(err => console.log("Autoplay blocked. Waiting for user interaction."));
+                    playPromise.catch(err => console.log("Waiting for click..."));
                 }
             }
 
@@ -386,9 +382,19 @@
                 songAudio.currentTime = 0;
             }
 
-            // === BINA CLICK KE CHALANE KA TRICK ===
-            // Jaise hi page load hoga, hum gaana chalu karne ki koshish karenge
-            playBirthdaySong();
+            // === AUTOPLAY UNLOCK TRICK ===
+            // Jaise hi user page par kisi bhi jagah click karega (jaise QR scan ke baad), gaana baj jayega
+            document.body.addEventListener('click', function() {
+                if (songAudio.paused) {
+                    songAudio.play().catch(e => {});
+                }
+            }, { passive: true });
+
+            document.body.addEventListener('touchstart', function() {
+                if (songAudio.paused) {
+                    songAudio.play().catch(e => {});
+                }
+            }, { passive: true });
 
             const qrImage = document.getElementById('qrImage');
             const currentUrl = encodeURIComponent('https://atulsahu8878.github.io/kartikBirthday/');
@@ -413,26 +419,16 @@
                 } else {
                     clearInterval(timer);
                     enterBtn.textContent = "Entering...";
-                    playBirthdaySong(); // Play again just in case
-                    dismissOverlay();   // Go inside
+                    playBirthdaySong(); // Try to play
+                    dismissOverlay();   // Auto enter
                 }
             }, 1000);
 
-            // Agar user manually button dabata hai toh turant andar jayega
+            // Agar user khud button dabata hai toh turant andar jaye
             enterBtn.addEventListener('click', function(e) {
                 clearInterval(timer);
                 playBirthdaySong();
                 dismissOverlay();
-            });
-
-            qrOverlay.addEventListener('click', function(e) {
-                if (e.target === this) {
-                    if (!qrOverlay.classList.contains('hidden')) {
-                        clearInterval(timer);
-                        qrOverlay.classList.add('hidden');
-                        setTimeout(() => { initCakeBuild(); }, 1200);
-                    }
-                }
             });
 
             let buildStarted = false;
