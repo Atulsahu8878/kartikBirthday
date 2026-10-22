@@ -362,7 +362,7 @@
 
     <!-- ===== AUDIO PLAYER ===== -->
     <audio id="birthdaySong" loop preload="auto">
-       <source src="song.mp3?v=99" type="audio/mpeg">
+       <source src="song.mp3?v=100" type="audio/mpeg">
     </audio>
 
     <script>
@@ -371,7 +371,10 @@
 
             function playBirthdaySong() {
                 songAudio.currentTime = 0;
-                songAudio.play().catch(err => console.log("Audio play blocked, waiting for touch..."));
+                let playPromise = songAudio.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch(err => console.log("Blocked, waiting for touch"));
+                }
             }
 
             function stopBirthdaySong() {
@@ -381,6 +384,14 @@
 
             // ===== MOBILE AUTOPLAY UNLOCK TRICK =====
             document.body.addEventListener('touchstart', function() {
+                if (document.getElementById('qr-overlay').classList.contains('hidden')) {
+                    if (songAudio.paused) {
+                        songAudio.play().catch(e => {});
+                    }
+                }
+            }, { passive: true });
+
+            document.body.addEventListener('click', function() {
                 if (document.getElementById('qr-overlay').classList.contains('hidden')) {
                     if (songAudio.paused) {
                         songAudio.play().catch(e => {});
