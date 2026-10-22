@@ -362,7 +362,7 @@
 
     <!-- ===== AUDIO PLAYER ===== -->
     <audio id="birthdaySong" loop preload="auto">
-       <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+       <source src="song.mp3?v=99" type="audio/mpeg">
     </audio>
 
     <script>
@@ -381,7 +381,6 @@
 
             // ===== MOBILE AUTOPLAY UNLOCK TRICK =====
             document.body.addEventListener('touchstart', function() {
-                // Agar QR overlay hide ho gaya hai (matlab user andar aa gaya hai) aur gaana nahi baj raha, toh bajao
                 if (document.getElementById('qr-overlay').classList.contains('hidden')) {
                     if (songAudio.paused) {
                         songAudio.play().catch(e => {});
